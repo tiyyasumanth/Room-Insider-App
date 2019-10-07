@@ -848,6 +848,8 @@ in cmd---------
                                            git config --global --add remote.origin.proxy(SSL_ERROR_SYSCALL in connection to github.com:443 if error occur)
 
                                            git push -u -f origin master
+
+note:::::::::::  all above comments should be run in folder path
                                           
 
    
