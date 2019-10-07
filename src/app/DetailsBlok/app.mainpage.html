@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+             div.cs{
+            width:100%;
+            margin: auto;
+            
+            position: absolute;
+            right: 0px; left: 0; top: 0%;
+            display: table;
+            clear: both;
+            height:25px;
+            background:blue;
+            float: none;
+            object-fit: cover;
+            
+             
+        }
+        div.row{
+            width:100%;
+            margin: auto;
+            position: absolute;
+            right: 0px; left: 0; top: 0%;
+            display: table;
+            clear: both;
+            object-fit: cover;
+        }
+            .column {
+             /* float: left;
+             
+            width: 50%;    */
+            /*remov the comm
+            
+            height: 50%; /* Should be removed. Only for demonstration */
+}
+/* table {
+ 
+  display: inline-table;
+} */
+
+
+table, td {
+  border-collapse: collapse;
+  border: 1px solid #000;
+}
+
+.accordion {
+  background-color:lightblue;
+  cursor: pointer;
+  padding: 7px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+/* .active, .accordion:hover {
+  background-color: #ccc;
+} */
+
+.accordion:after {
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.panel {
+  padding: 0 3px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+
+  display: grid;
+  grid-template-columns: auto auto auto;
+  
+ 
+  
+}
+
+.panel > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: left;
+ 
+}
+
+.field1 {
+  display: flex;
+  flex-flow: column-reverse;
+  margin-top: 10px;
+}
+
+  label, input {
+  transition: all 0.2s;
+  touch-action: manipulation;
+}
+
+input,select {
+  font-size: 1em;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  font-family: inherit;
+  -webkit-appearance: none;
+  border-radius: 0;
+  padding: 0;
+  width: 40%;
+  margin-top: 8px;
+  font-family: cursive;
+}
+
+input:focus {
+  outline: 0;
+  border-bottom: 1px solid #666;
+}
+
+label {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: cursive;
+}
+
+
+/* thead {
+  display: table; 
+  width: calc(100% - 17px); 
+} */
+
+
+
+/* th, td {
+  width: 33.33%; 
+  padding: 5px;
+  word-break: break-all; 
+} */
+
+/* tr {
+  display: table; 
+  width: 100%;
+
+} */
+
+
+
+div.row1 {
+  height:50%;
+  content: "";
+  display: table;
+  clear: both;
+  width: 100%;
+  padding-top: 17px;
+  
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  
+ 
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 3px;
+  width:auto;
+}
+
+tr:nth-child(even) {
+  background-color: lightblue;
+}
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+
+/* Float four columns side by side */
+.column1 {
+  float: left;
+  width: auto;
+  padding: 0 5px;
+}
+
+/* Remove extra left and right margins, due to padding */
+.row1 {margin: 0 -5px;}
+
+/* Clear floats after the columns */
+.row1:after {
+  content: "";
+  display: table;
+  
+}
+
+
+
+/* Style the counter cards */
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 1px;
+  text-align: left;
+  
+}
+
+    </style>
+    </head>
+    <body>
+        <div class="cs" style="overflow-x:auto;">
+            <label style="float:right; font-family: cursive;"><font color="white">{{username}}</font></label> 
+            <label style="float:right;font-family: cursive"> <font color="white">User:</font></label>
+            <label (click)="openaddPopup()" style="float:left;font-family: cursive;cursor: pointer"> <font color="white"><u>Add New</u></font></label>
+            <label (click)="openRentalDetailPopup()" style="float:left;font-family: cursive;cursor: pointer;margin-left: 20px"> <font color="white"><u>Add Rent Details</u></font></label>
+            <label (click)="showHistoricalData()"  style="float:left;font-family: cursive;cursor: pointer;margin-left: 20px"> <font color="white"><u>History Data</u></font></label>
+            <label  style="float:left;font-family: cursive;cursor: pointer;margin-left: 20px"> <font color="white"><u>Check Code</u></font></label>
+            
+        </div>
+        
+        <div class="row" style="float: right; width: 100%; height:100%;margin-top: 25px;">
+            <div  style="overflow-x:auto;"  #hisdiv>
+                
+                <fieldset >
+                        <legend style="font-family: cursive" > 
+                            Previous Data
+                        </legend>
+                        <ng-container  *ngIf="istoshowhistoricdatadiv">
+                            <div >
+                        <label id="flipid" *ngIf="istoshowhistoricdatadiv" (click)="fliptables()" style="float:left;font-family: cursive;cursor: pointer;margin-left: 10px"><font ><u>flip to table view</u></font></label>
+                            
+                              <div class="row1" *ngIf="fliptablecard">
+                                <table >
+                                <tr>
+                                  <th>Name</th>
+                                  <th>Address</th>
+                                  <th>Stress</th>
+
+                                  <th>Room Rent </th>
+                                  <th>Internet Bill</th>
+                                  <th>Power Bill</th>
+
+                                  <th>Maintainence Bill</th>
+                                  <th>Sweeper Bill</th>
+                                  <th>Provisions Bill</th>
+
+                                  <th>Water Bill</th>
+                                  <th>Unpaid Amount</th>
+                                  <th>Total Amount to Paid</th>
+
+                                  <th>Status</th>
+                                  <th>Bill Generated Date</th>
+                                </tr>
+                                <tr *ngFor="let dt of hisserdata">
+                                    <td>{{dt.NAME}}</td><td>{{dt.ADDRESS}}</td><td>{{dt.STREET}}</td><td>{{dt.ROOM_RENT}}</td><td>{{dt.INTERNET}}</td><td>{{dt.POWER_BILL}}</td>
+                                    <td>{{dt.MAINTAINENCE_BILL}}</td><td>{{dt.SWEEPER_BILL}}</td><td>{{dt.PROVISIONS_BILL}}</td><td>{{dt.WATER_BILL}}</td><td>{{dt.UNBILLED_AMOUNT}}</td><td>{{dt.TOTAL_AMT_TO_PAY}}</td>
+                                    <td [ngClass]="setvalidations(dt.STATUS)">{{dt.STATUS}}</td><td>{{dt.BILL_GENERATED_DATE}}</td>
+                                </tr>
+                              </table>
+                              </div>
+                            
+                              <div class="row1" *ngIf="flipblockcard">
+                                <div class="column1" *ngFor="let dt of hisserdata">
+                                  <div [ngSwitch]="dt.STATUS" class="card">
+                                    <label>{{dt.NAME}}</label>
+                                    <p >Total Amount to pay::{{dt.TOTAL_AMT_TO_PAY}}</p>
+                                    <p >Unpaid Amount::{{dt.UNBILLED_AMOUNT}}</p>
+                                    <!-- <p [ngClass]="setvalidations(dt.STATUS)">Status::{{dt.STATUS}}</p> -->
+                                    <p *ngSwitchCase="'Not Paid'" [ngClass]="setvalidations(dt.STATUS)">Status::{{dt.STATUS}}</p>
+                                    <p *ngSwitchCase="'Paid'" [ngClass]="setvalidations(dt.STATUS)">Status::{{dt.STATUS}}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </ng-container>
+                </fieldset>
+            
+            </div>
+            
+            <div class="column" >
+                    <fieldset >
+                            <legend style="font-family: cursive"> 
+                                Present Data
+                            </legend>
+                            <ng-container *ngFor="let dt of activedata; let i=index">
+                              <button (click)="onclickeve()" id="statusupdated{{dt.PERSON_ID}}" style="margin-top: 3px" class="accordion">Update User:{{dt.NAME}}</button>
+                              <div class="panel">
+                                <div class="field1">
+                                    <input type="text" value="{{dt.TOTAL_AMT_TO_PAY}}"  id="TotalAmount{{dt.PERSON_ID}}" readonly>
+                                    <label >Total Amount:</label>
+                                </div>
+                                <div class="field1">
+                                    <input type="text"  (input)="onSearchChange($event.target.value,dt.PERSON_ID)"  id="PaidAmount{{dt.PERSON_ID}}">
+                                    <label >Paid Amount:</label>
+                                </div>
+                                <div class="field1">
+                                  <input type="text" value="{{dt.UNBILLED_AMOUNT}}" id="Amounttopay{{dt.PERSON_ID}}" readonly>
+                                  <label >Amount to Pay:</label>
+                                </div>
+                                <div class="field1">
+                                  <select   id="rentstatus{{dt.PERSON_ID}}" >
+                                      <option selected="selected">
+                                          {{dt.STATUS}}
+                                          </option>
+                                    <option value=""></option>
+                                    <option value="Paid">Paid</option>
+                                    <option value="Partial Paid">Partial Paid</option>
+                                    <option value="Not Paid">Not Paid</option>
+                                  </select>
+                                  <label >Paid Status:</label>
+                              </div>
+                              <div class="field1" >
+                                  <select id="personstatus{{dt.PERSON_ID}}" >
+                                      <option selected="selected">
+                                          {{dt.PERSON_STATUS}}
+                                          </option>
+                                    <option value=""></option>
+                                    <option value="Active">Active</option>
+                                    <option value="In Active">In Active</option>
+                                  </select>
+                                  <label >Person Status:</label>
+                              </div>
+                              <div class="field1" >
+                                  <button id="btndiv{{dt.PERSON_ID}}" (click)="saveRecord(dt.PERSON_ID)" style="height: 25px;width: auto">Update Record</button>
+                              </div>
+                              </div>
+                            </ng-container>
+                    </fieldset>
+            </div>
+            <!-- <div class="row1" >
+                    <fieldset >
+                            <legend style="font-family: cursive"> 
+                                Code Snippets Data
+                            </legend>
+                            
+                    </fieldset>
+                      
+            </div> -->
+            
+        </div>
+        <rentaildetails-app *ngIf="istohiderentailsdetailspopup" (closeRentailPopup)="closeRentalDetailPopup($event)" style="vertical-align: middle" ></rentaildetails-app>
+        <addnew-app *ngIf="istohideaddnewpopup" (closeRentailPopup)="closenewRentalDetailPopup($event)"></addnew-app>
+    </body>
+</html>
