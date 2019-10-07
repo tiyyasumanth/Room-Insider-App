@@ -1,0 +1,860 @@
+ To install the Angular CLI, in a terminal or command prompt type: 
+  command:::: npm install -g @angular/cli
+
+Component:Is a class with a template and a decorator
+          Template defins the user interfaces. contains html,data bindings
+          class contains the code required for template.
+          Decarator adds meta data to class mking it angular component.
+          /** import { Component } from '@angular/core';
+           *@Component({------decorator
+           * selector: 'my-app',
+           * template: `<h1>Hello {{name}}</h1>`,
+           *})
+          export class AppComponent  { name = 'Angular 2'; }*/
+
+app.components: @component(name) overrids the index.html to our properties in class
+                export is used to expose the class to other components.
+                import is used import component from moddules.
+
+template vs templateurl
+-----------------------
+templateurl is used to desing html and acts as reference in component of ts file
+  templateurl:'app/app.compunt.html'
+               folder,filename
+
+deployment
+----------
+1.Create a project in a drive f:ng new <project Name>  Dont use file name like "_NN__"
+2.Open the folder with vscode c:\<folder>>code .   
+3.open application in weg ng serve --open
+4.to run unit tes ng test
+5.to deploy-- ng build --prod --base-href /eRoom/ (name of file equls in iis files)1
+  it generats dist folder in main application.
+6.Create empty folder in c like productionfiles and copy all dirt fils into them.
+7.open iis by typing inetmgr un cmd.
+8.expand sites and right click on Default web sit and click on add application
+  add Alias name which is equal to (name of file equls in iis files)1
+  add physical path that is production bulid and click ok..
+
+nesteed component
+------------------
+Here we are using another component into another component
+Desing room details table withnested component
+  check roomdetails folder for reference
+
+1.we have to nest the sub-component into root component
+  a.change in app.module.ts--import room component
+      import {RoomComponent} from './roomtable'
+      Add RoomComponent(class) in declarations
+      Add sub component to main root(app.component)
+      @Component({
+      selector: 'app-root',
+      template: `<div>
+      <h1>{{title}}</h1>
+      <app-roomdetails></app-roomdetails>
+      </div>`
+      })
+
+
+styling components
+------------------
+1)style.css is default file and it is in index.html(root).
+2)style inline in html files
+3)specify the styles in using @component decorator style property
+    style:['table { color:#369}']
+
+4)specify the styles in using @component decorator styleurl property
+    styleUrls:['<.css file path>']
+
+
+Angular interpolation or property binding
+----------------------------------------
+interpolation is binding the data , interpolation is compailed into property binding
+1)one way--from component to vies template
+2)from view template to component
+3)from component to view and view to component
+
+method declaration:getFullName():string{
+return value}
+  <h1>{{getFullName()}}</h1>
+
+ for attribute binding interpolation is not used. to apply binding use attr
+       attr.colspan="{{columnspan}}"
+
+property binding syntax:<img [src]='imagepath'/>
+     [] indecates property binding which applied to img property
+     imagepath is properti given in class.
+
+
+event binding(from view to component):
+-------------------------------------
+ex: template:`<button (click)='onClick()'>click me</button>`
+                       event   method
+
+export class AppCompont{
+onClick():void{console.log('Button click');}
+}
+
+task:hide and show the emp details of last 2 rows
+     in sub component create a bool property and a method
+       showdetails:boolen=false;
+       toggleDetails():void{this.showDetails=!this.Showdetails;}
+     in sub combonent html create a button and add click event
+      <button (click)="<method>()">show</button>
+
+     in html table structural directive use *ngIf(to hide or show)
+       <tr *ngIf='showDetails'></tr> where showDetails is property
+
+Two way binding
+----------------
+by using 'ngModel' we can achive two way binding
+import FormsModule in app.module
+ import {FormsModule} from '@angular/forms'
+ import:[BrowserModule,FormsModule] add to @NgModule
+  ex:template:`Name:<input [(ngModel)]='name'`
+      where []property binging and () event binding
+      export class AppComponent{
+      name:string ='tom';}
+
+note:*ngIf directive is used to add or remove the <tr> elements dynamically
+      <tr *ngIf='<property name>'/>
+
+
+ngFor(property)
+--------------
+ngFor acts as for loop in html to assing data.
+create an array in class with data:
+  employees:any[]=[{code:'employe',name='tom'},{code:'employe',name='tom'}];
+where any[] is array syntax append that array to table
+
+  <tr *ngFor="let employee of employees">
+      <td>{{ employee.code}}</td>
+        -
+        -
+  </tr>
+
+if no data is there
+ <tr *ngIf="!employees || employees.length==0">
+   <td colspan="5">No data/>
+ </tr>
+
+
+trackBy with ngFor
+-----------------------------
+For large data to add or remove a rocord ngFor is slow it is recommended to use trackBy
+
+dynamically add record to list:
+  export class <className>{
+    employees:any[];
+    
+    constructor(){
+    this.employees=[{code:'employe',name='tom'},{code:'employe',name='tom'}];}
+
+    getEmployee():void{this.employees=[{code:'employe',name='tom'},{code:'employe',name='tom'},{code:'employe',name='tom'}];}}
+    trackByCode(index:number,employee:any):string{return employee.code;}
+}
+ <tr *ngFor="let employee of employees">
+      <td>{{ employee.code}}</td>
+        -
+        -
+  </tr>
+ <button (click)="getEmployee()"/> it adds new list to table and refresh all data
+
+ <tr *ngFor="let employee of employees;trackBy:trackByCode;let isFirst=first;let i=index">
+      <td>{{ employee.code}}</td>
+        -
+        -
+  </tr>
+ here trackBy calls methode and add or delete by code improves performance
+
+
+Pipes(|)
+-------
+which transforms data while display like upper case or date formates or decimals
+  <tr *ngFor="let employee of employees">
+      <td>{{ employee.code | uppercase}}</td>
+        -
+        -
+  </tr>
+
+custom pipes
+------------
+check video
+
+container and nested components
+-------------------------------
+Task: create nested component which contains 3 rado buttons 
+and create container component with a table structure.
+
+ts file----EmployeeCountComponent{
+      all:number=10;
+      male:number:10;
+      female:number:5;
+}
+
+html file:----
+  <span class="radioClass">Show:</span>  here class refers .css file create css
+  <input type="radio" name="options"/>   use same name to all radio buttons then they be in one group
+  <span class="radioClass">{{"All("+ all +")"}}</span>
+
+  <input type="radio" name="options"/>
+  <span class="radioClass">{{"All("+ male +")"}}</span>
+
+   <input type="radio" name="options"/>
+  <span class="radioClass">{{"All("+ female +")"}}</span>
+
+employeeList component:(use nested component in container component)
+ <employee-count><employee-count>---------------slector name
+<br></br>
+  <table>  
+  <tr *ngFor="let employee of employees">
+      <td>{{ employee.code}}</td>
+        -
+        -
+  </tr>
+  </table
+
+
+Data sending from container component to nested component using 'input' properties:
+-------------------------------------------------------------------------------
+impoty Input core-- import {Component,Input} frpm '@angular/core';
+
+ts file----EmployeeCountComponent{
+      @Input()
+      all:number;
+      @Input()
+      male:number;
+      @Input()
+      female:number;
+}
+
+employeeList component (ts): create methods to append the dynamic row count male or female to nested component
+getTotalEmployeesCount():number{return this.employees.length;}
+getTotalMaleEmployeesCount():number{return this.employees.filter(e=>e.gender==="Male").length;}
+getTotalFemaleEmployeesCount():number{return this.employees.filter(e=>e.gender==="Female").length;}
+
+this methods are binding to <employee-count><employee-count> persent in employeeList.html
+
+ <employee-count [all]="getTotalEmployeesCount()" [male]="getTotalMaleEmployeesCount()"
+[Female]="getTotalFemaleEmployeesCount()"><employee-count>---------------slector name
+<br></br>
+  <table>  
+  <tr *ngFor="let employee of employees">
+      <td>{{ employee.code}}</td>
+        -
+        -
+  </tr>
+  </table
+
+
+
+Data sending from nested component to container component using 'output' properties and custom events:
+-------------------------------------------------------------------------------------------------
+
+If we click male radio button it displays only male data
+
+import Input core-- import {Component,Input,Output,EventEmitter} from '@angular/core';
+
+
+ts file----EmployeeCountComponent{
+      selectedRadioButtonValue:string:"All"; this keeps tracking the radio button changed
+      
+      @Output
+      countRadioButtonSelectionChanged:EventEmitter<string>=new EventEmitter<string>();
+      
+      @Input()
+      all:number;
+      @Input()
+      male:number;
+      @Input()
+      female:number;
+
+     //raiseevent
+onRadioButtonSelectionChange(){this.countRadioButtonSelectionchanged.emit(this.selectedRadioButtonValue)}
+}
+
+
+html file:----
+  <span class="radioClass">Show:</span>  here class refers .css file create css
+  <input type="radio" name="options" value="All" [(ngModel)]="selectedRadioButtonValue" (change)="onRadioButtonSelectionChange()"/>   use same name to all radio buttons then they be in one group
+  <span class="radioClass">{{"All("+ all +")"}}</span>
+
+  <input type="radio" name="options"/>
+  <span class="radioClass">{{"All("+ male +")"}}</span>
+
+   <input type="radio" name="options"/>
+  <span class="radioClass">{{"All("+ female +")"}}</span>
+
+
+in employeelist component:
+selectedRadioButtonCountValue:string:"All"
+
+onEmployeeCountRadioButtonChange(selectedRadioButtonCountValue:string):void{this.sselectedRadioButtonCountValue=selectedRadioButtonCountValue;}
+
+in employeelist.html
+
+<employee-count [all]="getTotalEmployeesCount()" [male]="getTotalMaleEmployeesCount()"
+[Female]="getTotalFemaleEmployeesCount()" (countRadioButtonSelectionChanged)="onEmployeeCountRadioButtonChange($event)"><employee-count>---------------slector name
+
+
+in employee list .html
+
+<ng-container *ngFor="let employee of employees"> 
+<tr *ngIf="selectedRadioButtonCountValue=='All' || selectedRadioButtonCountValue==employe.gender">
+      <td>{{ employee.code}}</td>
+        -
+        -
+  </tr>
+</ng-container>
+
+
+Note*:: *ngFor,*ngIf cant use in one directory so use ng-container
+
+
+
+Interfaces and lifecycle hooks
+---------------------------------
+new file  employee.ts-
+   expoet interface IEmployee{
+     code:string;
+    name:string;
+    gender:string; 
+}
+
+import in component where u want to use
+ import {IEmployee} from './employee'
+
+
+ employee:IEmployee[];
+
+ now we can assing to employee object
+this.employee=[{code:'',-------},{-------------}]
+
+Note:::The structural directives alter the layout of the DOM by adding, replacing and removing its elements.
+
+
+Routing:
+---------
+used to navigate one view to another view.
+
+1)import router module in (app.module)
+   import {RouterModule, Router} from '@angular/router'
+add in imports --imports:[RouterModule]
+2)in additional to RouterModule we imported Router Moudle to hold number of links to route:
+
+3)Create a list of routes to navigate in (app.module):
+  const appRoutes:Routes=[{path: 'home',component:<name of component>},
+                          {path: 'employee',component:<name of component>},
+                          {path:'',redirectTo:'/home',pthMatch:'full'},--if user navigat to base just redirect
+                          {path:'**',component:<name of component>[pagenotfoundcomponebt]}--if no component found
+                          
+]; it is telling rouyer if it sees path home append to base url  /src/ in index.html then navigate to component
+
+4)now assing this route array list to RountingModule
+     imports:[RouterModule.forRoot(Routes)]--it loops based on components
+                               or
+     imports:[RouterModule.forRoot(Routes,{useHash:true})]--it loops based on components
+                                           (displays in # )
+5)Now add desing to create linls to navigate in app.component.is
+       template:`<div>
+                    <ul >
+                      <li><a routerLink="home">Home</a></li>
+                      <li><a routerLink="employees">Employees</a></li> 
+                    </ul>
+                      <router-outlet></router-outlet>  ---this directive tells angular to render routed component
+                 </div>`
+  
+
+in web.config
+-------------
+     <system.webServer>
+    <rewrite>
+      <rules>
+        <rule name="SpaRewriteRule" stopProcessing="true">
+          <match url=".*"/>
+          <conditions logicalGrouping="MatchAll">
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true"/>
+            <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true"/>
+            <add input="{REQUEST_URI}" pattern="^/(api)" negate="true"/>
+          </conditions>
+          <action type="Rewrite" url="/index.html"/>
+        </rule>
+        <rule name="ApiProxyRule" stopProcessing="true">
+          <match url="api/(.*)"/>
+          <action type="Rewrite" url="http://api.angularapp.com/api/{R:1}"/>
+        </rule>
+      </rules>
+    </rewrite>
+    <handlers>
+      <clear/>
+      <add name="StaticFile" path="*" verb="*" modules="StaticFileModule,DefaultDocumentModule,DirectoryListingModule" resourceType="Either" requireAccess="Read"/>
+    </handlers>
+    <staticContent>
+      <mimeMap fileExtension=".*" mimeType="application/octet-stream"/>
+    </staticContent>
+  </system.webServer>
+Note:order of routes should maintain , wuldcard route is entered in last because it accepts any route component.
+
+
+Dependency injections and servcs(re-useablity)
+---------------------------------------------
+
+reder to exm
+@Component({
+  selector: 'app-table-data',
+  templateUrl: './app.tabledata.html',
+  styleUrls: ['./app.component.css'],
+  providers:[EmployeeServices]--------------add service name in provider and first import it
+})
+
+
+
+
+
+Navigate:
+---------
+Used to navigate one page to another page manually.
+  constructor(private _router: Router){} 
+
+   onBack(): void { 
+      this._router.navigate(['/Product']); ------product is name of given in list of routes in module.ts
+   } 
+
+Note:
+-------
+ngNativeValidate is used for form validations in login creditials with required properti in dom element.
+
+http serveses(out dated):
+-------------------------------
+Http services used to get post delete data in different format.
+
+import hhtpmodele:
+                            import {HttpModule} from '@angular/http';
+include in imports:
+                            imports:[HttpModule]
+
+get data and set in services class for re usability (in service class): 
+                            
+                            <absolute url> like http://localhost:31324/api/employees or any url
+
+                            import {Http,Response} from '@angular/http';
+                            import {observable} from 'rxjs/Observable'; ---return type
+                            import 'rxjs/add/operator/map';  ----used to cheeck json data mapping
+
+                            constructor(private _http:Http){}
+                            getEmployee(): Observable<IEployee[]>{ 
+                                                                         return this._http.get("<absolute url>")
+                                                                          .map((response:Response)=><IEmployee[]>response.json());}
+
+
+append service data :
+                             in employeecomponent:
+                                 ngOnInit(){
+                                                        this._employeeService.getEmployee().subscribe(empdata)=>this.employees=empdata);}
+
+where empdata is hold data from service
+
+httpClient serveses(New version):
+-------------------------------------------
+
+Http services used to get post delete data in different format.
+
+import hhtpmodele:
+                            import { HttpClientModule } from '@angular/common/http';
+include in imports:
+                            imports:[HttpClientModule ]
+
+get data and set in services class for re usability (in service class): 
+                            
+                            <absolute url> like http://localhost:31324/api/employees or any url
+
+                           import { HttpClient,HttpResponse } from '@angular/common/http';
+                            import { Observable } from 'rxjs';
+                            import 'rxjs/add/operator/map';  ----used to cheeck json data mapping--no need to use map in httpclient
+
+                            constructor(private http: HttpClient){}
+                            getdata():Observable<any>{
+                                                          return this.http.get('http://jsonplaceholder.typicode.com/users');
+  }
+
+
+append service data :
+                             in employeecomponent:
+                                 ngOnInit(){
+                                                        this._employeeService.getdata().subscribe(empdata)=>this.employees=empdata);}
+
+where empdata is hold data from service
+
+note: :::::::bind this.employees data directly to dom elements, the scope of this.employees is dead out side of subscribe method
+
+
+@viewChild decoretor with ElementRef
+------------------------------------------------
+This is used to get the child elements in another component or in dom elements(by template reference name).
+
+import AfterViewInit,ViewChild,ElementRef in files
+AfterViewInit(interface) is used to get the elements after vies is initilized, and viewchild is uesd to create the object for component or dom element.
+ElementRef holds the reference data of viewchild
+
+@ViewChild('tabledta')          tabledta is template ref in dom element #tabledta
+   private tab:ElementRef;
+
+@ViewChild(NumberComponent)      for component
+        private numberComponent: NumberComponent;
+
+
+
+ngAfterViewInit(): void {
+     console.log(this.tab.nativeElement);
+    this.tab.nativeElement.style.backgroundColor = 'cyan';
+    this.tab1.nativeElement.style.backgroundColor = 'pink';
+  }
+
+
+converting elemenid to HTMLInputElement
+--------------------------------------------------------
+<HTMLInputElement>document.getElementById(this.val1)).value
+
+document.getElementById() returns the type HTMLElement which does not contain a value property
+
+
+Services call from web api
+----------------------------------
+For login get:  http://127.0.0.1:8000/login/login/
+http://127.0.0.1:8000/autlogin/
+
+
+invalid header
+---------------------
+ng serve --host 0.0.0.0 --disable-host-check.
+
+ng-template,ng-class,ng-content,ng-style,ng-switch
+-----------------------------------------------------------------
+
+ng-template
+----------------
+used to declare fragments of html elements.
+ng-template uses ngif.
+it is a conditional drirective.
+The <ng-template> is an Angular element for rendering HTML. It is never displayed directly. In fact, before rendering the view
+
+<div *ngIf="Visible;then even else odd"/div>
+<ng-template #even>even click</ng-template>
+<ng-template #odd>odd click</ng-template>
+
+where #even and #odd are reference name this reference are used in div tag.
+
+ng-class
+-----------
+It is used to add and remove CSS classes on an HTML element.
+There are different ways to bind CSS classes to NgClass that are using string, array and object.
+we can apply dynamic styles.
+
+create .css file
+----------
+.one {
+    color: green;
+}
+.two {
+    font-size: 20px;
+}
+.three {
+    color: red;
+}
+.four {
+    font-size: 15px;
+} 
+
+in .ts
+-----
+styleUrls: ['app/user.component.css']
+
+in .html
+--------
+<p [ngClass]="'one two'">
+  Using NgClass with String.
+</p>
+
+<p [ngClass]="['three', 'four']">
+  Using NgClass with Array.
+</p>
+
+<p [ngClass]="{'one': true, 'three': false }">
+ Using NgClass with Object.
+</p>
+
+<div *ngFor="let user of users; let flag = even;">
+   <div [ngClass]="{'one':flag, 'two':flag, 'three':!flag, 'four':!flag}"> {{user}} </div>
+</div>
+
+<br/>
+<div [ngClass]="getCSSClasses('nightMode')">
+ Using NgClass with Component Method.
+</div> 
+
+
+ngswitch
+-----------
+NgSwitch is an angular directive that displays one element from a possible set of elements based on some condition
+
+<ul [ngSwitch]="person">
+  <li *ngSwitchCase="'Mohan'">Hello Mohan</li>
+  <li *ngSwitchCase="'Sohan'">Hello Sohan</li>
+  <li *ngSwitchCase="'Vijay'">Hello Vijay</li>
+  <li *ngSwitchDefault>Bye Bye</li>
+</ul>
+
+ngSwitch uses ngSwitchCase for possible case
+ngSwitchDefault is for default
+
+
+ng-content
+------------------
+One of the main goals of Angular is to help the developer create reusable and composable components. I think ng-content is one of the simplest way
+.You use the <ng-content></ng-content> tag as a placeholder for that dynamic content, then when the template is parsed Angular will replace that placeholder tag with your content
+
+while using component reference in another page  
+   selector: 'login-app'
+
+  <login-app></login-app> is using in anoyher page set data in between <login-app></login-app>(<login-app>https://www.youtube.com/watch?v=y4gL0fOYRtE</login-app>)
+ 
+  the data wont display so use <ng-content></ng-content> in login-app selector of template view
+
+
+lazy loading
+---------------
+While creating 0r adding more modules there will be a significant of time to load the appication. to reduce time loading we are using lazy loading.
+
+we are using asyncorous loading which loads future modules
+
+rquirments for lazy loading
+--------------------------------
+All routers in module should have the same route prefixx.
+the module should not be referenced in any other module.
+
+use loadChildren property for lazy loading
+
+
+obserables vs promises
+-----------------------------
+obserables hits the service only it subscribes.   promises uses then method to hit the services without the it hits the services but dont display data.
+
+observbles uses subscribe with 3 params next error compete and emits every item in list. promises uses onfullfiled and onreject callbacks.
+
+
+Directives:
+---------------
+Dirctives are mechanisim adding functionality to existing compnents.Used for re-usablility code for functionality
+
+types:
+  components, structrual directives, attribute directives(changes the behavioue of elements like ngclass,ngModel)
+
+custom directive: creating a directive is similer to componebt and this directive can be reused.
+      create a file called app.myhighlighter.ts
+          
+            import {Directives,ElementRef} from '@angular/core'
+              @Directive({seletor :'[my-highlighter]'})   ---my-highlightername given to directive
+                  export class myHighlighterDirective{
+                                    constructor(el:ElementRef){   ----ElementRef background set styles 
+
+                                               e1.nativeElement.style.background='yellow'
+
+}
+}
+      add this directive to app.module like component. and make use the directive
+
+                @component({selector:'my-app,template:`<h1 my-highlighter>saaad</h1>`'})
+                  my-highlighter is directive
+
+
+pipes
+----------
+Pipes are used to transform the data.
+
+custom pipes:::::::::::  create a column          Name         gender
+                                                                      Mr.Tom      male
+                                                                      Miss.Nancy female
+
+using custom pipe add mr and miss to names
+
+         import {pipe,PipeTransform} fro '@angular/core'
+         @pipe({name:'employeeTitle'})
+        export class EmployeeTitlePipe implements PipeTransform{
+
+        transform(value:string,gender:string):string{                     ------------override method first param is default and second param has to pass
+
+    if(gender.toLowerCase()=='male')
+}
+  return "Mr." +value
+}
+
+}
+
+}
+
+register in app.moduoe like component.
+
+ <td>{{employe.name | employeeTitle:employee.gender}}   -----------employee.gender is second param
+
+types::::::::::::::::
+                          pure: this pure pipe will execute when a pure chang to input value is detected.
+                                    a pure change is change to primitive input value(string,number) or object reference(array)
+                                    filtering not work.
+
+                          pure:true
+
+                          impure pipe:::  filtering work it processs every change even source data does not change.
+
+                          pure : false
+@hostBinding and @hostlistiner
+----------------------------------------------
+In Angular, the @HostListener() function decorator allows you to handle events of the host element in the directive class.
+    @HostListener('click') onClick() {
+    window.alert('Host Element Clicked');
+}
+
+     
+import { Directive, ElementRef, Renderer, HostListener } from '@angular/core';
+
+
+
+@Directive({
+
+    selector: '[appChbgcolor]'
+
+})
+
+export class ChangeBgColorDirective {
+
+
+
+    constructor(private el: ElementRef, private renderer: Renderer) {
+
+        // this.ChangeBgColor('red');
+
+    }
+
+
+
+    @HostListener('mouseover') onMouseOver() {
+
+        this.ChangeBgColor('red');
+
+    }
+
+
+
+    @HostListener('click') onClick() {
+
+        window.alert('Host Element Clicked');
+
+    }
+
+    @HostListener('mouseleave') onMouseLeave() {
+
+        this.ChangeBgColor('black');
+
+    }
+
+
+
+    ChangeBgColor(color: string) {
+
+
+
+        this.renderer.setElementStyle(this.el.nativeElement, 'color', color);
+
+    }
+
+}
+
+
+
+In Angular, the @HostBinding() function decorator allows you to set the properties of the host element from the directive class.
+
+         
+@HostBinding('style.border') border: string;
+
+
+
+@HostListener('mouseover') onMouseOver() {
+
+    this.border = '5px solid green';
+
+}
+
+
+booststrap in angular 6 instalation
+--------------------------------------------
+
+to install go to folder directery
+    npm install bootstrap@3 jquery --save
+
+after intall cofigure for use bootstrap  in angular.json
+
+ "styles": [
+              "src/styles.css",
+               "node_modules/bootstrap/dist/css/bootstrap.min.css"
+            ],
+            "scripts": ["node_modules/jquery/dist/jquery.min.js",
+            "node_modules/bootstrap/dist/js/bootstrap.min.js"]
+
+                                    (or)
+
+"styles": [
+              "src/styles.css",
+               "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+            ],
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.slim.min.js",
+            "./node_modules/bootstrap/dist/js/bootstrap.min.js"]
+
+
+ex:::::::class="btn-success"
+
+<script src="/node_moules/jquery/dist/jquery.min.js"></script>
+
+errors::::
+ SEC7120: [CORS] The origin 'ms-appx-web://microsoft.microsoftedge' failed to allow a cross-origin font resource at 'ms-appx-web:///assets/Fonts/BrowserMDL.ttf#Browser MDL2 Assets'.
+CSS3119: No fonts available for @font-face rule
+
+HTTP404: NOT FOUND - The server has not found anything matching the requested URI (Uniform Resource Identifier).
+GET - http://localhost:4200/node_modules/bootstrap/dist/css/runtime.js
+
+SEC7112: Script from http://localhost:4200/node_modules/bootstrap/dist/css/runtime.js was blocked due to mime type mismatch
+
+
+clone and deploy  project in git
+-----------------------------------------
+Download git from https://gitforwindows.org/ and install and set path in environment variables
+
+clone git project:::   git clone <https://bitbucket.org/velingeorgiev/rouge>
+
+commit files into git:::::::   login to git and create a repository
+
+in cmd---------
+                                           git init
+                                           git add -A
+                                           git commit -m '<name of project>
+                                            
+                                           *** Please tell me who you are.
+                                            Run
+
+                                           git config --global user.email "you@example.com"(git config --global user.email "tiyyasumanth@gmail.com")
+                                           git config --global user.name "Your Name"'(git config --global user.name "tiyyasumanth")
+
+                                           git remote add origin https://github.com/tiyyasumanth/samp.git(git remote add origin <Name of the git repository>
+
+                                           git config --global --add remote.origin.proxy(SSL_ERROR_SYSCALL in connection to github.com:443 if error occur)
+
+                                           git push -u -f origin master
+                                          
+
+   
+
+
+
+  
+
+
+
