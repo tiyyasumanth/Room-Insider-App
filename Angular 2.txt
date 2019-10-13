@@ -988,6 +988,58 @@ export class DecimalPipe {
 
 
 [DecimalPipe]="true" DecimalPlaces="2" minValue="0.00" canStartWithoutDot="true" DecimalPipe is derctive use where u want.
+
+
+model services popup:::
+-------------------------------
+
+Instalations in ur project folder :: npm install --save @ng-bootstrap/ng-bootstrap(high version)
+
+In index.html ::::::::::::::::::     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+In app.module.ts::::::            import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
+                                             imports: [
+                                                                NgbModule
+                                                            ],
+In u r component.ts:::::      import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+                                             constructor(private modalService: NgbModal) {
+        
+                                                                                                                          }
+
+                                             newUser(newusertemplate){
+        this.modalService.open(newusertemplate,{size:'lg',windowClass:"hugeModal"});       
+                                                                                         }
+
+In u r component.html:::::
+
+        <label (click)="newUser(newuser)" style="font-family: cursive;cursor: pointer;float:right"><font color="blue">New Register<u></u></font></label>
+
+        <ng-template   #newuser let-modal>
+          <label style="height: 30px;" class="label label-info">Enter new roomment details information  </label>
+        <div class="form-horizontal">
+          <div class="form-group form-row col-lg-6 " style="margin-top: 10px;">
+            <label>First Name::</label>
+            <input  type="text">
+          </div>
+
+          <div class="form-group form-row col-lg-6" style="margin-top: 10px;">
+            <label>Last Name::</label>
+            <input  type="text">
+          </div>
+        </div>
+      </ng-template> 
+
+Note: #newuser is reference to pass in button as ref variable
+
+Override the model popup styles to increse width/height/styles in styles.css::
+
+     .hugeModal > .modal-dialog {
+    max-width: 90% !important;
+   width: 50% !important;
+   margin-top: 120px;
+   /* height: 5000px !important; */
+}
+
+Note::: hugeModal is used to overrride the NgbModal styles.
                                           
 
    
