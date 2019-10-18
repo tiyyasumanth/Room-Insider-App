@@ -1040,7 +1040,22 @@ Override the model popup styles to increse width/height/styles in styles.css::
 }
 
 Note::: hugeModal is used to overrride the NgbModal styles.
-                                          
+                                 
+To pass a value from one page to another page in routing:
+----------------------------------------------------------
+parent component:
+                 In button click:
+                 ----------------
+                 <button (click)="navigatetopage()"/>
+                  navigatetopage()
+                 {         
+                   this.router.navigate(["<path name given in app.routing child component>", { value: <input> }]);       
+                 }
+child component
+                 To recive value from routing
+                 -----------------------------
+                 private activatedRoute: ActivatedRoute              ActivatedRoute is service 
+                 this.activatedRoute.snapshot.params['value']; 
 
    
 
