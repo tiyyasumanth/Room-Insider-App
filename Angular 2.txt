@@ -1056,6 +1056,22 @@ child component
                  -----------------------------
                  private activatedRoute: ActivatedRoute              ActivatedRoute is service 
                  this.activatedRoute.snapshot.params['value']; 
+                 
+Angular conformation popup toastr
+---------------------------------
+Install package:::::  npm install ngx-toastr --save
+
+import {BrowserAnimationModule} from '@angular/platform-browser/animations'
+import{ToastrModule} from 'ngx-toastr'  
+
+impot above modules in app.module.ts and add them in imports section like imports:{(ToastrModule.forRoot())}
+
+in angular.json file in styles section
+        "styles":["node_modules/ngx-toastr/toastr.css"]
+
+How to use in components:::::
+         Import {ToastrService} from '@ngx-toastr'
+         Constructor(Private toastr:ToastrService){this.toastr.success('submited')}
 
    
 
