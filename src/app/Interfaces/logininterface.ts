@@ -4,5 +4,5 @@ export interface Ilogindetails{
     Pwd:string;
     createddate:Date;
     updatedate:Date;
-    testdate:date;
+    testdate:Date;
 }
