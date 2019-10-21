@@ -6,4 +6,5 @@ export interface Ilogindetails{
     updatedate:Date;
     testdate:Date;
     test2 :Date;
+    test4:Date;
 }
