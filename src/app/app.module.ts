@@ -10,7 +10,8 @@ import {AddNewComponent} from './PopupsBlock/app.addnewcomponent'
 import {BackDecorator} from './DecoratersBlock/BackgroundDecorater'
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from '@angular/forms'
-import {RouterModule, Router, Routes} from '@angular/router'
+import {RouterModule, Router, Routes} from '@angular/router';
+import { TestingComponentComponent } from './testing-component/testing-component.component'
 // import {loginservices} from './ServicesBlock/loginservice'
 
 
@@ -20,7 +21,7 @@ import {RouterModule, Router, Routes} from '@angular/router'
 
 @NgModule({
   declarations: [
-    AppComponent,LoginComponent,MainpageComponent,RentailDetailspageComponent,AddNewComponent,BackDecorator
+    AppComponent,LoginComponent,MainpageComponent,RentailDetailspageComponent,AddNewComponent,BackDecorator, TestingComponentComponent
   ],
   imports: [
     BrowserModule,
