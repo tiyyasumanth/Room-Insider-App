@@ -9,4 +9,5 @@ export interface Ilogindetails{
     test3:Date;
     test4:Date;
     test5:Date;
+    test6:Date;
 }
