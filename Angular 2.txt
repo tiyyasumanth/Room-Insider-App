@@ -1073,7 +1073,7 @@ How to use in components:::::
          Import {ToastrService} from '@ngx-toastr'
          Constructor(Private toastr:ToastrService){this.toastr.success('submited')}
 
-test hkjhjhj
+test hkjhjh ghjghjh
 
    
 
