@@ -3,4 +3,5 @@ export interface Ilogindetails{
     Uname:string;
     Pwd:string;
     createddate:Date;
+    updatedate:Date;
 }
