@@ -1072,10 +1072,7 @@ in angular.json file in styles section
 How to use in components:::::
          Import {ToastrService} from '@ngx-toastr'
          Constructor(Private toastr:ToastrService){this.toastr.success('submited')}
-2
 
-
-1
   
 
 
