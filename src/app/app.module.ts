@@ -11,7 +11,8 @@ import {BackDecorator} from './DecoratersBlock/BackgroundDecorater'
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from '@angular/forms'
 import {RouterModule, Router, Routes} from '@angular/router';
-import { TestingComponentComponent } from './testing-component/testing-component.component'
+import { TestingComponentComponent } from './testing-component/testing-component.component';
+import { Testcomponent2Component } from './testcomponent2/testcomponent2.component'
 // import {loginservices} from './ServicesBlock/loginservice'
 
 
@@ -21,7 +22,7 @@ import { TestingComponentComponent } from './testing-component/testing-component
 
 @NgModule({
   declarations: [
-    AppComponent,LoginComponent,MainpageComponent,RentailDetailspageComponent,AddNewComponent,BackDecorator, TestingComponentComponent
+    AppComponent,LoginComponent,MainpageComponent,RentailDetailspageComponent,AddNewComponent,BackDecorator, TestingComponentComponent, Testcomponent2Component
   ],
   imports: [
     BrowserModule,
