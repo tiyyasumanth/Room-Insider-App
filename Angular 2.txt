@@ -1074,7 +1074,7 @@ How to use in components:::::
          Constructor(Private toastr:ToastrService){this.toastr.success('submited')}
 
 
-   
+   test
 
 
 
