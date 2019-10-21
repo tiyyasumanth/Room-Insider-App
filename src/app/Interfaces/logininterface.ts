@@ -8,4 +8,5 @@ export interface Ilogindetails{
     test2 :Date;
     test3:Date;
     test4:Date;
+    test5:Date;
 }
