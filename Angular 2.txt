@@ -1098,6 +1098,12 @@ applications:
 - name: APP-ONE-Service
   path: C:\Users\sumanth_tiyya\Desktop\publish
   buildpack: staticfile_buildpack
+service manifest:
+--------------------
+applications:
+- name: APP-ONE-Service
+  path: C:\Users\sumanth_tiyya\Desktop\publish
+  buildpack: binary_buildpack
 
 
 
