@@ -1095,9 +1095,9 @@ https://console.run.pivotal.io/pws/sign_up/organizations/new   -dump
 manifest:
 -----------
 applications:
-- name: APP-ONE
-  path: H:\Room-Insider-Details-App\dist\Room-Insider-Details-App
-  buildpack: https://github.com/tiyyasumanth/Room-Insider-App
+- name: APP-ONE-Service
+  path: C:\Users\sumanth_tiyya\Desktop\publish
+  buildpack: staticfile_buildpack
 
 
 
