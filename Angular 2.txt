@@ -1072,6 +1072,32 @@ in angular.json file in styles section
 How to use in components:::::
          Import {ToastrService} from '@ngx-toastr'
          Constructor(Private toastr:ToastrService){this.toastr.success('submited')}
+         
+Angular deployment in pcf
+---------------------------------
+--- Create and login to PCF account and ORG (name for project)
+--- download and install 'CF CLI' and test cli using cf help in cmd.
+--- Build angular and go to path in cmd
+
+Navigate to the app directory: 
+cd <folder path>
+Sign in to PWS: 
+cf login -a https://api.run.pivotal.io
+
+create manifest.yml and place  in folder path
+Push the app to PWS: 
+cf push
+
+Error ---- No org targeted, use 'cf target -o ORG' to target an org.
+
+https://console.run.pivotal.io/pws/sign_up/organizations/new   -dump
+
+manifest:
+-----------
+applications:
+- name: APP-ONE
+  path: H:\Room-Insider-Details-App\dist\Room-Insider-Details-App
+  buildpack: https://github.com/tiyyasumanth/Room-Insider-App
 
 
 
