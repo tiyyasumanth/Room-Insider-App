@@ -1104,6 +1104,24 @@ applications:
 - name: APP-ONE-Service
   path: C:\Users\sumanth_tiyya\Desktop\publish
   buildpack: binary_buildpack
+  
+ivy enable in angular 8
+---------------------------------
+It is an new compiler(new rendering engin for angular) and rendering pipeline.Ivy is a complete rewrite of the Angular renderer which is simply 
+the part of Angular that transforms your Angular templates into JavaScript code.
+To enable :  ng new <project  name> --enableivy=true
+                              or
+Intsconfig.json in angularcompileroptions segment  ::  "enableIvy":true
+
+The performance of the Angular runtime is quite good but the loading time is longer because of the large file size which affects the overall performance of the application.
+
+So what the Angular team is doing to solve the large size of the final bundles?
+
+Enter Ivy.
+
+Before Angular 8, the framework used ViewEngine as the renderer,
+With Angular 8, Ivy is in experimental mode behind an optional flag,
+With Angular 9+, Ivy is the default compiler.
 
 
 
