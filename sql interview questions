@@ -532,6 +532,42 @@ Cte to delete records
 ---------------------
 ;with cte as(select top 1000 * from <table_name>) delete from cte
 
+Query to json to relationdata using sp
+------------------------------------------
+
+ALTER PROCEDURE JsonToRelation @Jdata nvarchar(max)
+AS
+Begin
+DECLARE @Jsondata nvarchar(max)
+DECLARE @SalesOrderTieJson nvarchar(max)
+DECLARE @ItemsJson nvarchar(max)
+DECLARE @LenJson INT
+DECLARE @SalesOrderTiesJson nvarchar(max)
+         
+  set @Jsondata=@Jdata
+
+  SELECT SalesOrderId,Buid,MCID,TieNumber,ServiceTagNumber,PPID,BasePart
+  FROM OPENJSON (@Jsondata)
+  WITH 
+  (
+  SalesOrderId NVARCHAR(50) '$.OrderSvcTagDetails.Details.SalesOrderId',
+  Buid NVARCHAR(50) '$.OrderSvcTagDetails.Details.Buid',
+  MCID NVARCHAR(20) '$.OrderSvcTagDetails.Details.MCID',
+  SalesOrderTie nvarchar(max) '$.OrderSvcTagDetails.Details.SalesOrderTies.SalesOrderTie' as json
+  ) as oJson CROSS APPLY OPENJSON (oJson.SalesOrderTie)
+  WITH
+  (
+   TieNumber NVARCHAR(50) '$.TieNumber',
+   Item nvarchar(max) '$.Items.Item' as json
+  ) as svjson CROSS APPLY OPENJSON (svjson.Item) 
+  WITH
+  (
+    ServiceTagNumber NVARCHAR(50) '$.ServiceTagNumber',
+    PPID NVARCHAR(50) '$.PPID',
+	BasePart NVARCHAR(50) '$.BasePart'
+  )
+End
+
 
 
 
