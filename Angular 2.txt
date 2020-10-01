@@ -1124,4 +1124,23 @@ With Angular 8, Ivy is in experimental mode behind an optional flag,
 With Angular 9+, Ivy is the default compiler.
 
 
+Functions provided by RxJS
+-----------------------------
+Converting existing code for async operations into observables
+Iterating through the values in a stream
+Mapping values to different types
+Filtering streams
+Composing multiple streams
+
+What is the purpose of Wildcard route
+---------------------------------------
+If the URL doesn't match any predefined routes then it causes the router to throw an error and crash the app. In this case, you can use wildcard route. A wildcard route has a path consisting of two asterisks to match every URL.
+
+For example, you can define PageNotFoundComponent for wildcard route as below
+{ path: '**', component: PageNotFoundComponent }
+
+Differential loading
+----------------------
+- with differential loading, two bundles are created when building for production: a bundle for modern browsers that support ES2015+ and a bundle for older browsers that only support the ES5 version of JavaScript
+
 
